@@ -1,25 +1,21 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { Controller, Clock, Start, Reset } from './components';
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.tsx</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div className='App d-flex justify-content-center align-items-center flex-column'>
+        <h2>Pomodoro Clock</h2>
+        <div className='d-flex w-50 my-2 justify-content-around'>
+          <Controller type={'Break'} />
+          <Controller type={'Session'} />
+        </div>
+        <Clock />
+        <div className='d-flex mt-3 justify-content-around w-25'>
+          <Start />
+          <Reset />
+        </div>
       </div>
     );
   }
