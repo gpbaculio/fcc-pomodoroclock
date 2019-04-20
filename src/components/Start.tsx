@@ -1,11 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import { connect } from 'react-redux';
 import {
   decTotalSecs,
   startTimer,
   switchSession,
   stopTimer,
-  setTimer
+  setTimer,
+  onPause,
+  onResume
 } from '../store/clock/actions';
 import { AppState } from '../store';
 import { sessionType } from '../store/clock/types';
@@ -20,6 +22,9 @@ interface StartPRops {
   start: boolean;
   setTimer: (timer: number) => void;
   timer: number | null;
+  pause: boolean;
+  onPause: () => void;
+  onResume: (callback: () => void) => void;
 }
 
 class Start extends Component<StartPRops> {
@@ -30,29 +35,49 @@ class Start extends Component<StartPRops> {
       switchSession,
       start,
       stopTimer,
-      setTimer
+      setTimer,
+      pause,
+      onPause,
+      onResume,
+      timer
     } = this.props;
-    const sound = document.getElementById('beep') as HTMLAudioElement;
-    if (!start) {
-      startTimer();
-      const timer: any = setInterval(() => {
-        if (this.props.totalSeconds > 0) {
-          decTotalSecs();
-        }
-        if (this.props.totalSeconds === 0) {
-          sound.currentTime = 0;
-          sound.play();
-          clearInterval(timer);
-          switchSession(this.handleStart);
-        }
-      }, 1000);
-      setTimer(timer);
-    } else {
+    if (!start && !pause) {
+      console.log('start');
+      this.handlePlay();
+    } else if (start && !pause) {
+      console.log('pause');
+      // pause
+      onPause();
       if (this.props.timer) {
         clearInterval(this.props.timer);
       }
       stopTimer();
+    } else if (!start && pause) {
+      console.log('resume');
+      // resume
+      onResume(this.handlePlay);
     }
+  };
+  handlePlay = () => {
+    const { setTimer, startTimer, decTotalSecs, switchSession } = this.props,
+      sound = document.getElementById('beep') as HTMLAudioElement;
+    startTimer();
+    const timer: any = setInterval(() => {
+      if (!this.props.timer) {
+        setTimer(timer);
+      }
+      if (this.props.totalSeconds > 0) {
+        decTotalSecs();
+      }
+      if (this.props.totalSeconds === 0) {
+        sound.currentTime = 0;
+        sound.play();
+        if (this.props.timer) {
+          clearInterval(this.props.timer);
+        }
+        switchSession(this.handlePlay);
+      }
+    }, 1000);
   };
   render() {
     const { start } = this.props;
@@ -68,12 +93,13 @@ class Start extends Component<StartPRops> {
 }
 
 const mapStateToProps = ({
-  clock: { totalSeconds, session, start, timer }
+  clock: { totalSeconds, session, start, timer, pause }
 }: AppState) => ({
   totalSeconds,
   session,
   start,
-  timer
+  timer,
+  pause
 });
 
 const mapDispatchToProps = {
@@ -81,7 +107,9 @@ const mapDispatchToProps = {
   startTimer,
   switchSession,
   stopTimer,
-  setTimer
+  setTimer,
+  onPause,
+  onResume
 };
 
 export default connect(

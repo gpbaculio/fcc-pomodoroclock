@@ -15,7 +15,9 @@ import {
   SWITCH_SESSION,
   STOP_TIMER,
   SET_TIMER,
-  ON_RESET
+  ON_RESET,
+  ON_PAUSE,
+  ON_RESUME
 } from './types';
 import { getTotalSeconds } from '../../utils';
 
@@ -119,5 +121,21 @@ export const switchSession = (
   callback: () => void
 ): ThunkAction<void, AppState, void, AnyAction> => dispatch => {
   dispatch({ type: SWITCH_SESSION });
+  callback();
+};
+
+export const onPause = (): ThunkAction<
+  void,
+  AppState,
+  void,
+  AnyAction
+> => dispatch => {
+  dispatch({ type: ON_PAUSE });
+};
+
+export const onResume = (
+  callback: () => void
+): ThunkAction<void, AppState, void, AnyAction> => dispatch => {
+  dispatch({ type: ON_RESUME });
   callback();
 };

@@ -11,6 +11,8 @@ export const SET_TOTALSECS = 'SET_TOTALSECS';
 export const SWITCH_SESSION = 'SWITCH_SESSION';
 export const SET_TIMER = 'SET_TIMER';
 export const ON_RESET = 'ON_RESET';
+export const ON_PAUSE = 'ON_PAUSE';
+export const ON_RESUME = 'ON_RESUME';
 export type sessionType = typeof breakSession | typeof session;
 
 export interface ClockState {
@@ -36,7 +38,9 @@ interface timeControls {
     | typeof START_TIMER
     | typeof SWITCH_SESSION
     | typeof STOP_TIMER
-    | typeof ON_RESET;
+    | typeof ON_RESET
+    | typeof ON_PAUSE
+    | typeof ON_RESUME;
 }
 
 interface setTotalSecs {

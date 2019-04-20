@@ -27,7 +27,7 @@ const Controller = ({
         className='mx-auto'>{`${type} Length`}</h5>
       <div className='d-flex align-items-center justify-content-center'>
         <button
-          disabled={mins >= 60 || mins === 1 || start}
+          disabled={mins >= 60 || start}
           id={`${
             type === breakSession ? 'break-increment' : 'session-increment'
           }`}

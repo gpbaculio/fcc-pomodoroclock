@@ -13,7 +13,9 @@ import {
   breakSession,
   STOP_TIMER,
   SET_TIMER,
-  ON_RESET
+  ON_RESET,
+  ON_PAUSE,
+  ON_RESUME
 } from './types';
 import { getTotalSeconds } from '../../utils';
 
@@ -24,7 +26,7 @@ export const initialState: ClockState = {
   SessionMins: 25,
   BreakMins: 5,
   pause: false,
-  timer: 0
+  timer: null
 };
 
 export default (state = initialState, action: ClockActionTypes) => {
@@ -45,6 +47,13 @@ export default (state = initialState, action: ClockActionTypes) => {
         pause: false
       };
     }
+    case ON_RESUME: {
+      return {
+        ...state,
+        pause: false,
+        start: false
+      };
+    }
     case SET_TIMER: {
       return { ...state, timer: action.payload.timer };
     }
@@ -53,6 +62,12 @@ export default (state = initialState, action: ClockActionTypes) => {
         ...state,
         timer: null,
         start: false,
+        pause: true
+      };
+    }
+    case ON_PAUSE: {
+      return {
+        ...state,
         pause: true
       };
     }
@@ -83,6 +98,7 @@ export default (state = initialState, action: ClockActionTypes) => {
     case SWITCH_SESSION: {
       return {
         ...state,
+        timer: null,
         totalSeconds: getTotalSeconds(
           state.session === session ? state.BreakMins : state.SessionMins
         ),
