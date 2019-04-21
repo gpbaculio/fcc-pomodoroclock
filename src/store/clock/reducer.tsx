@@ -15,7 +15,8 @@ import {
   SET_TIMER,
   ON_RESET,
   ON_PAUSE,
-  ON_RESUME
+  ON_RESUME,
+  SWITCH_TIME
 } from './types';
 import { getTotalSeconds } from '../../utils';
 
@@ -95,13 +96,18 @@ export default (state = initialState, action: ClockActionTypes) => {
         BreakMins: state.BreakMins - 1
       };
     }
-    case SWITCH_SESSION: {
+    case SWITCH_TIME: {
       return {
         ...state,
         timer: null,
         totalSeconds: getTotalSeconds(
           state.session === session ? state.BreakMins : state.SessionMins
-        ),
+        )
+      };
+    }
+    case SWITCH_SESSION: {
+      return {
+        ...state,
         session:
           state.session === session
             ? (breakSession as typeof breakSession)

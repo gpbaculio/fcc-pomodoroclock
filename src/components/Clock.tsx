@@ -13,7 +13,6 @@ interface ClockProps {
 }
 
 const Clock = (props: ClockProps) => {
-  const { start, pause } = props;
   const perc = Math.abs((props.totalSeconds / props.denom) * 100 - 100);
   return (
     <div

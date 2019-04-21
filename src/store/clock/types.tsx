@@ -9,6 +9,7 @@ export const START_TIMER = 'START_TIMER';
 export const STOP_TIMER = 'STOP_TIMER';
 export const SET_TOTALSECS = 'SET_TOTALSECS';
 export const SWITCH_SESSION = 'SWITCH_SESSION';
+export const SWITCH_TIME = 'SWITCH_TIME';
 export const SET_TIMER = 'SET_TIMER';
 export const ON_RESET = 'ON_RESET';
 export const ON_PAUSE = 'ON_PAUSE';
@@ -31,6 +32,7 @@ interface decTotalSecs {
 
 interface timeControls {
   type:
+    | typeof SWITCH_TIME
     | typeof INC_SESSIONMINS
     | typeof DEC_SESSIONMINS
     | typeof INC_BREAKMINS

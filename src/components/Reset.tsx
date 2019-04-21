@@ -8,7 +8,7 @@ interface ResetProps {
   timer: number | null;
 }
 
-const Reset = ({ onReset, timer }: ResetProps) => {
+const Reset = (props: ResetProps) => {
   const sound = document.getElementById('beep') as HTMLAudioElement;
   return (
     <button
@@ -17,10 +17,10 @@ const Reset = ({ onReset, timer }: ResetProps) => {
         if (sound !== null) {
           sound.currentTime = 0;
         }
-        if (timer) {
-          clearInterval(timer);
+        if (props.timer) {
+          clearInterval(props.timer);
         }
-        onReset();
+        props.onReset();
       }}
       className='btn btn-danger btn-md'>
       reset

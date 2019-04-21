@@ -17,7 +17,8 @@ import {
   SET_TIMER,
   ON_RESET,
   ON_PAUSE,
-  ON_RESUME
+  ON_RESUME,
+  SWITCH_TIME
 } from './types';
 import { getTotalSeconds } from '../../utils';
 
@@ -29,7 +30,12 @@ export const startTimer = (): ThunkAction<
 > => dispatch => {
   dispatch({ type: START_TIMER });
 };
-
+export const switchTime = (
+  callback: () => void
+): ThunkAction<void, AppState, void, AnyAction> => dispatch => {
+  dispatch({ type: SWITCH_TIME });
+  callback();
+};
 export const onReset = (): ThunkAction<
   void,
   AppState,
@@ -117,11 +123,13 @@ export const setTotalSeconds = (
   dispatch({ type: SET_TOTALSECS, payload: { seconds } });
 };
 
-export const switchSession = (
-  callback: () => void
-): ThunkAction<void, AppState, void, AnyAction> => dispatch => {
+export const switchSession = (): ThunkAction<
+  void,
+  AppState,
+  void,
+  AnyAction
+> => dispatch => {
   dispatch({ type: SWITCH_SESSION });
-  callback();
 };
 
 export const onPause = (): ThunkAction<
