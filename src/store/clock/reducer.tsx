@@ -16,7 +16,8 @@ import {
   ON_RESET,
   ON_PAUSE,
   ON_RESUME,
-  SWITCH_TIME
+  SWITCH_TIME,
+  REMOVE_TIMER
 } from './types';
 import { getTotalSeconds } from '../../utils';
 
@@ -44,9 +45,11 @@ export default (state = initialState, action: ClockActionTypes) => {
     case START_TIMER: {
       return {
         ...state,
-        start: true,
-        pause: false
+        start: true
       };
+    }
+    case REMOVE_TIMER: {
+      return { ...state, timer: null };
     }
     case ON_RESUME: {
       return {
@@ -58,18 +61,11 @@ export default (state = initialState, action: ClockActionTypes) => {
     case SET_TIMER: {
       return { ...state, timer: action.payload.timer };
     }
-    case STOP_TIMER: {
-      return {
-        ...state,
-        timer: null,
-        start: false,
-        pause: true
-      };
-    }
     case ON_PAUSE: {
       return {
         ...state,
-        pause: true
+        timer: null,
+        start: false
       };
     }
     case DEC_TOTALSECS: {
@@ -99,9 +95,10 @@ export default (state = initialState, action: ClockActionTypes) => {
     case SWITCH_TIME: {
       return {
         ...state,
+        start: false,
         timer: null,
         totalSeconds: getTotalSeconds(
-          state.session === session ? state.BreakMins : state.SessionMins
+          state.session === session ? state.SessionMins : state.BreakMins
         )
       };
     }

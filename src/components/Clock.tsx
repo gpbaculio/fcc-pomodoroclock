@@ -41,14 +41,15 @@ const Clock = (props: ClockProps) => {
   );
 };
 
-const mapStateToProps = ({
-  clock: { totalSeconds, session, BreakMins, SessionMins, start, pause }
-}: AppState) => ({
-  totalSeconds,
-  session,
-  denom: (session === breakSession ? BreakMins : SessionMins) * 60,
-  start,
-  pause
+const mapStateToProps = (state: AppState) => ({
+  totalSeconds: state.clock.totalSeconds,
+  session: state.clock.session,
+  denom:
+    (state.clock.session === breakSession
+      ? state.clock.BreakMins
+      : state.clock.SessionMins) * 60,
+  start: state.clock.start,
+  pause: state.clock.pause
 });
 
 export default connect(mapStateToProps)(Clock);

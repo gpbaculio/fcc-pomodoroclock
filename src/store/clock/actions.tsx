@@ -18,10 +18,18 @@ import {
   ON_RESET,
   ON_PAUSE,
   ON_RESUME,
-  SWITCH_TIME
+  SWITCH_TIME,
+  REMOVE_TIMER
 } from './types';
 import { getTotalSeconds } from '../../utils';
-
+export const removeTimer = (): ThunkAction<
+  void,
+  AppState,
+  void,
+  AnyAction
+> => dispatch => {
+  dispatch({ type: REMOVE_TIMER });
+};
 export const startTimer = (): ThunkAction<
   void,
   AppState,
@@ -30,11 +38,13 @@ export const startTimer = (): ThunkAction<
 > => dispatch => {
   dispatch({ type: START_TIMER });
 };
-export const switchTime = (
-  callback: () => void
-): ThunkAction<void, AppState, void, AnyAction> => dispatch => {
+export const switchTime = (): ThunkAction<
+  void,
+  AppState,
+  void,
+  AnyAction
+> => dispatch => {
   dispatch({ type: SWITCH_TIME });
-  callback();
 };
 export const onReset = (): ThunkAction<
   void,
@@ -46,7 +56,7 @@ export const onReset = (): ThunkAction<
 };
 
 export const setTimer = (
-  timer: number
+  timer: any
 ): ThunkAction<void, AppState, void, AnyAction> => dispatch => {
   dispatch({ type: SET_TIMER, payload: { timer } });
 };

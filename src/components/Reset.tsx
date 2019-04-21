@@ -5,7 +5,7 @@ import { AppState } from '../store';
 
 interface ResetProps {
   onReset: () => void;
-  timer: number | null;
+  timer: any;
 }
 
 const Reset = (props: ResetProps) => {
@@ -15,10 +15,11 @@ const Reset = (props: ResetProps) => {
       id='reset'
       onClick={() => {
         if (sound !== null) {
+          sound.pause();
           sound.currentTime = 0;
         }
         if (props.timer) {
-          clearInterval(props.timer);
+          props.timer.cancel();
         }
         props.onReset();
       }}

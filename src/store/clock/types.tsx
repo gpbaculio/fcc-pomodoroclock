@@ -14,6 +14,7 @@ export const SET_TIMER = 'SET_TIMER';
 export const ON_RESET = 'ON_RESET';
 export const ON_PAUSE = 'ON_PAUSE';
 export const ON_RESUME = 'ON_RESUME';
+export const REMOVE_TIMER = 'REMOVE_TIMER';
 export type sessionType = typeof breakSession | typeof session;
 
 export interface ClockState {
@@ -23,7 +24,7 @@ export interface ClockState {
   SessionMins: number;
   BreakMins: number;
   pause: boolean;
-  timer: number | null;
+  timer: any;
 }
 
 interface decTotalSecs {
@@ -32,6 +33,7 @@ interface decTotalSecs {
 
 interface timeControls {
   type:
+    | typeof REMOVE_TIMER
     | typeof SWITCH_TIME
     | typeof INC_SESSIONMINS
     | typeof DEC_SESSIONMINS
@@ -55,7 +57,7 @@ interface setTotalSecs {
 interface setTimer {
   type: typeof SET_TIMER;
   payload: {
-    timer: number;
+    timer: any;
   };
 }
 

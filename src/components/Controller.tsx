@@ -13,39 +13,39 @@ interface ControllerProps {
   start: boolean;
 }
 
-const Controller = ({
-  type,
-  mins,
-  incHandler,
-  decHandler,
-  start
-}: ControllerProps) => {
+const Controller = (props: ControllerProps) => {
   return (
     <div className='d-flex flex-column justify-content-center'>
       <h5
-        id={`${type === breakSession ? 'break-label' : 'session-label'}`}
-        className='mx-auto'>{`${type} Length`}</h5>
+        id={`${props.type === breakSession ? 'break-label' : 'session-label'}`}
+        className='mx-auto'>{`${props.type} Length`}</h5>
       <div className='d-flex align-items-center justify-content-center'>
         <button
-          disabled={mins >= 60 || start}
+          disabled={props.mins >= 60 || props.start}
           id={`${
-            type === breakSession ? 'break-increment' : 'session-increment'
+            props.type === breakSession
+              ? 'break-increment'
+              : 'session-increment'
           }`}
-          onClick={() => incHandler(type)}
+          onClick={() => props.incHandler(props.type)}
           className='arrow border-0'>
           <FaArrowUp />
         </button>
         <div
-          id={`${type === breakSession ? 'break-length' : 'session-length'}`}
+          id={`${
+            props.type === breakSession ? 'break-length' : 'session-length'
+          }`}
           className='w-25 mx-2 text-center'>
-          {mins}
+          {props.mins}
         </div>
         <button
-          disabled={mins === 1 || start}
+          disabled={props.mins === 1 || props.start}
           id={`${
-            type === breakSession ? 'break-decrement' : 'session-decrement'
+            props.type === breakSession
+              ? 'break-decrement'
+              : 'session-decrement'
           }`}
-          onClick={() => decHandler(type)}
+          onClick={() => props.decHandler(props.type)}
           className='arrow border-0'>
           <FaArrowDown />
         </button>
@@ -54,10 +54,11 @@ const Controller = ({
   );
 };
 
-const mapStateToProps = (
-  { clock: { SessionMins, BreakMins, start } }: AppState,
-  { type }: { type: sessionType }
-) => ({ mins: type === session ? SessionMins : BreakMins, start });
+const mapStateToProps = (state: AppState, props: { type: sessionType }) => ({
+  mins:
+    props.type === session ? state.clock.SessionMins : state.clock.BreakMins,
+  start: state.clock.start
+});
 
 const mapDispatchToProps = {
   incHandler,
